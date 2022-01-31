@@ -1,4 +1,4 @@
-# words from https://github.com/dwyl/english-words
+# words stolen from the original wordle code
 
 # Open the list of words
 with open('fiveletterwords.txt', 'r') as dictionary:
