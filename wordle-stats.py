@@ -48,9 +48,6 @@ while True:
         cleared = []
         if rawinput[i] == '0': # we delete all the words containing this letter
             for word in fiveletterwords: 
-                # DEBUG
-                if word == "light":
-                    ...
 
                 if char in word and (not (char in greens)): 
                     # special case handling: if we get a gray AFTER we got a green for another position, we are sure that the letter will be ONLY in the green position and not anywhere else in the word, but the word
