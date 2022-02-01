@@ -45,33 +45,22 @@ while True:
             if rawinput[i] == "0":  # deletion logic
                 # if the marked 0 char is the only one in the word, we can safely delete it and adios
                 if word[i] == char:
-                    if word == "those":
-                        ...
                     continue
                 else:
-                    if word == "sanes":
-                        ...
                     cleared.append(word)
             elif (
                 rawinput[i] == "1"
             ):  # we keep all the words not containing this letter and the words containng this letter at this position
                 if char in word and word[i] != char:
-                    if word == "sanes":
-                        ...
                     cleared.append(word)
                 else:
-                    if word == "those":
-                        ...
                     continue
             elif rawinput[i] == "2":
                 # we delete all the words not containing this letter in this position
                 if word[i] == char:
-                    if word == "sanes":
-                        ...
                     cleared.append(word)
                 else:
-                    if word == "those":
-                        ...
+
                     continue
         fiveletterwords = cleared
 
