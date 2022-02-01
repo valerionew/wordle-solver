@@ -48,9 +48,8 @@ while True:
                     continue
                 else:
                     cleared.append(word)
-            elif (
-                rawinput[i] == "1"
-            ):  # we keep all the words not containing this letter and the words containng this letter at this position
+            elif rawinput[i] == "1":
+                # we keep all the words not containing this letter and the words containng this letter at this position
                 if char in word and word[i] != char:
                     cleared.append(word)
                 else:
