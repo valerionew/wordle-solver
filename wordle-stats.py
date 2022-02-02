@@ -2,7 +2,7 @@
 
 # Open the list of words
 
-with open("fiveletterwords.txt", "r") as dictionary:
+with open("easy.txt", "r") as dictionary:
     lines = dictionary.readlines()
 
 # Select only 5 letter words and strip the newline
@@ -22,7 +22,12 @@ wordprobabilities = {}
 for word in fiveletterwords:
     wordprobabilities[word] = 1
     for x, letter in enumerate(word):
-        wordprobabilities[word] *= probabilities[x][ord(letter) - 97]
+        if word.count(letter) > 1:
+            # we discourage repetitions of letters 
+            wordprobabilities[word] *= probabilities[x][ord(letter) - 97] / 2
+        else:
+            wordprobabilities[word] *= probabilities[x][ord(letter) - 97]
+
 
 # pick the word with max probability: we could also take into account the non-repetition of letters to gain quickly insights
 apriori = max(wordprobabilities, key=wordprobabilities.get)
@@ -32,6 +37,7 @@ print(apriori, wordprobabilities[apriori])
 #
 while True:
     while True:  # get a code from the user: this way sucks
+        # TODO: transform this into a function
         rawinput = input("Put 0 where grey, put 1 where yellow, put 2 where green: ")
         if len(rawinput) != 5:
             continue
@@ -39,11 +45,13 @@ while True:
             if char not in ["0", "1", "2"]:
                 continue
         break
+
+    # TODO: transform this into a function
     for i, char in enumerate(apriori):
         cleared = []
         for word in fiveletterwords:
             if rawinput[i] == "0":  # deletion logic
-                # if the marked 0 char is the only one in the word, we can safely delete it and adios
+                # TODO: this could be impoved. We can delete this same letter in every position IF AND ONLY IF is present only once in the guess. If it is present more than once, we can delete it only if in all other position is gray. If it's yellow in the other position, we can delete only the words with that letter in the position we are testing right now. If it's green, we can delete the letter in ALL the other positions, except the green one. We should also take into account that we could have more than two repetitions of the same letter in the same word.
                 if word[i] == char:
                     continue
                 else:
@@ -65,10 +73,15 @@ while True:
 
     wordprobabilities = {}
 
+# TODO transform this in a function
     for word in fiveletterwords:
         wordprobabilities[word] = 1
         for x, letter in enumerate(word):
-            wordprobabilities[word] *= probabilities[x][ord(letter) - 97]
+            if word.count(letter) > 1:
+                # we discourage repetitions of letters 
+                wordprobabilities[word] *= probabilities[x][ord(letter) - 97] / 2
+            else:
+                wordprobabilities[word] *= probabilities[x][ord(letter) - 97]
 
     apriori = max(wordprobabilities, key=wordprobabilities.get)
     print(apriori, wordprobabilities[apriori])
