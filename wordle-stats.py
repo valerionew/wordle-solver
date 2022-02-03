@@ -2,7 +2,7 @@
 
 # Open the list of words
 
-with open("easy.txt", "r") as dictionary:
+with open("semplici.txt", "r") as dictionary:
     lines = dictionary.readlines()
 
 # Select only 5 letter words and strip the newline
@@ -33,20 +33,31 @@ for word in fiveletterwords:
 apriori = max(wordprobabilities, key=wordprobabilities.get)
 print(apriori, wordprobabilities[apriori])
 
-
-#
-while True:
+def userinput():
     while True:  # get a code from the user: this way sucks
-        # TODO: transform this into a function
         rawinput = input("Put 0 where grey, put 1 where yellow, put 2 where green: ")
         if len(rawinput) != 5:
             continue
         for char in rawinput:
             if char not in ["0", "1", "2"]:
                 continue
-        break
+        return rawinput
 
-    # TODO: transform this into a function
+def getguess(words):
+    wordprobabilities = {}
+    for word in words:
+        wordprobabilities[word] = 1
+        for x, letter in enumerate(word):
+            if word.count(letter) > 1:
+                # we discourage repetitions of letters 
+                wordprobabilities[word] *= probabilities[x][ord(letter) - 97] / 2
+            else:
+                wordprobabilities[word] *= probabilities[x][ord(letter) - 97]
+    return max(wordprobabilities, key=wordprobabilities.get)
+
+
+while True:
+    rawinput = userinput()
     for i, char in enumerate(apriori):
         cleared = []
         for word in fiveletterwords:
@@ -71,17 +82,5 @@ while True:
                     continue
         fiveletterwords = cleared
 
-    wordprobabilities = {}
-
-# TODO transform this in a function
-    for word in fiveletterwords:
-        wordprobabilities[word] = 1
-        for x, letter in enumerate(word):
-            if word.count(letter) > 1:
-                # we discourage repetitions of letters 
-                wordprobabilities[word] *= probabilities[x][ord(letter) - 97] / 2
-            else:
-                wordprobabilities[word] *= probabilities[x][ord(letter) - 97]
-
-    apriori = max(wordprobabilities, key=wordprobabilities.get)
-    print(apriori, wordprobabilities[apriori])
+    apriori = getguess(fiveletterwords);
+    print(apriori)
