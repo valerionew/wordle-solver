@@ -1,3 +1,5 @@
+import string
+
 def wordtest(solution: list, guess: str) -> str:
     solution = list(solution)
     guess = list(guess)
@@ -31,6 +33,7 @@ def userinput():
 
 
 def getguess(words: list[str]) -> str:
+    #* STRATEGY: if we guessed 4 out of 5 letter and we have many words with those 4 letters, a better strategy could be trying to eliminate more letters instead of making many attempts changing just that letter.
 
     probabilities = letterprobabilities(words)
 
@@ -40,22 +43,24 @@ def getguess(words: list[str]) -> str:
         sum = 0
         for x, letter in enumerate(word):
             # ? should we discourage repetitions of letters?
-            sum += probabilities[x][
-                ord(letter) - 97
-            ]  # wouldn't a dictionary be better than ord(letter)-97?
+            sum += probabilities[x][letter]  
+
+
         wordprobabilities[word] = sum
     return max(wordprobabilities, key=wordprobabilities.get)
 
 
 def letterprobabilities(words):
-    probabilities = [[0 for _ in range(26)] for _ in range(5)]
+    probabilities = [dict.fromkeys(string.ascii_lowercase, 0) for _ in range(5)]
+    # wouldn't a dictionary be better than ord(letter)-97? YES!!!
     for word in words:
         for x, letter in enumerate(word):
-            probabilities[x][ord(letter) - 97] += 1
+            probabilities[x][letter] += 1
     return probabilities
 
 
 def eliminator(thisroundwords, apriori, rawinput):
+    #* PERFORMANCE: can this be rewritten so that it doesn't cycle through EVERY WORD 5 TIMES?
     for i, char in enumerate(apriori):
         cleared = []
         for word in thisroundwords:
@@ -66,9 +71,8 @@ def eliminator(thisroundwords, apriori, rawinput):
                         continue
                     else:
                         cleared.append(word)
-                elif word.count(char) == apriori.count(
-                    char
-                ):  # ! the only one but we should check also that all are 0
+                elif word.count(char) == apriori.count(char):  
+                    #! the only one but we should check also that all are 0
                     continue
                 else:
                     cleared.append(word)
@@ -83,7 +87,6 @@ def eliminator(thisroundwords, apriori, rawinput):
                 if word[i] == char:
                     cleared.append(word)
                 else:
-
                     continue
         thisroundwords = cleared
     return thisroundwords
