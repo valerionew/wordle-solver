@@ -43,7 +43,38 @@ def userinput():
                 continue
         return rawinput
 
-def getguess(words):
+def wordtest(solution:list, guess:str ) -> str:
+    solution = list(solution)
+    guess = list(guess)
+    test = ["0" for _ in range(5)]
+    # we first find the greens and remove them from the word, this is for the correct handling of multiple occurrence
+    for i,char in enumerate(guess):
+        if char == solution[i]:
+            test[i] = "2"
+            guess[i] = "_"
+            solution[i] = "-"
+
+    # now we check the yellows: what should we do for multiple occurrence of a yellow char? set all to yw?
+    for i,char in enumerate(guess):
+        if char in solution:
+            test[i] = "1"
+    returnstr = ""
+    for x in test:
+        returnstr += x
+    return returnstr
+
+
+
+
+def getguess(words: list[str]) -> str:
+    
+    # ! should we calculate this every time? one simple try with today's italian word suggest that it could make the performance worse. I want to montecarlo this
+    
+    probabilities = [[0 for _ in range(26)] for _ in range(5)]
+    for word in words:
+        for x, letter in enumerate(word):
+            probabilities[x][ord(letter) - 97] += 1
+          
     wordprobabilities = {}
     for word in words:
         wordprobabilities[word] = 1
