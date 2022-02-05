@@ -22,8 +22,6 @@ for solution in fiveletterwords:
             break
 
         apriori = getguess(thisroundwords);
-
-        # input()
     
         rawinput = wordtest(solution, apriori)
 
@@ -32,6 +30,6 @@ for solution in fiveletterwords:
             score += (6-i)
             break
 
-        thisroundwords = eliminator(thisroundwords,apriori,rawinput);
+        thisroundwords = eliminator(thisroundwords,apriori,rawinput)
 
 print("score: ", score, "on: ", len(lines), "not guessed: ",len(notguessed), (notguessed))
