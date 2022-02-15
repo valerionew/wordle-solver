@@ -16,7 +16,7 @@ avg = profile*[1:7]'/sum(profile)
 bar(profile)
 title("Wordle solver guess attempts in ITA after 'curated dict' (7=not solved)")
 ```
-![ita-curated-bars](ita-curated-bars.png)
+![ita-curated-bars](img/ita-curated-bars.png)
 
 ITA: average 3.8984 guesses before curated
 ```matlab
